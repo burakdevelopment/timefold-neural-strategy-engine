@@ -5,7 +5,7 @@
 
 ## 📖 Introduction
 
-**TIMEFOLD** is an advanced **Multimodal Strategic Foresight Engine** powered by **Google's Gemini** models.
+**TIMEFOLD** is an advanced **Multimodal Strategic Foresight Engine** powered by **Google's Gemini 3** models.
 
 Unlike traditional chatbots that generate linear text, TIMEFOLD functions as a **recursive simulation environment**. It creates a **Council of Agents** — dynamic AI personas representing domain experts — to debate, analyze, and forecast divergent future scenarios.
 
@@ -38,7 +38,7 @@ Don’t just tell — **show**.
   Upload stock charts, geopolitical maps, or supply chain diagrams.
 
 - **Image-to-Simulation**  
-  Gemini 3  analyzes visual inputs and injects them directly into the causal simulation logic.
+  Gemini 3 analyzes visual inputs and injects them directly into the causal simulation logic.
 
 ---
 
