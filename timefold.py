@@ -13,33 +13,305 @@ st.set_page_config(page_title="TIMEFOLD: Neural Strategy Engine", page_icon="�
 
 st.markdown("""
 <style>
-    .main { background-color: #0E1117; color: #C9D1D9; }
-    h1 {
-        background: -webkit-linear-gradient(45deg, #00C9FF, #92FE9D);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-family: 'Courier New', monospace;
-        font-weight: bold;
-    }
-    .stButton>button {
-        border: 1px solid #00C9FF; border-radius: 6px;
-        background-color: rgba(0, 201, 255, 0.05); color: #00C9FF;
-        font-family: 'Courier New'; font-weight: bold; transition: all 0.3s;
-    }
-    .stButton>button:hover {
-        background-color: #00C9FF; color: black; box-shadow: 0 0 15px #00C9FF;
-    }
-    .agent-card {
-        padding: 20px; border-radius: 12px; background-color: #161B22;
-        border-left: 5px solid #92FE9D; margin-bottom: 15px; height: 100%;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.2s;
-    }
-    .agent-card:hover { transform: translateY(-5px); }
-    .trace-box {
-        background-color: #1F1F1F; border-left: 3px solid #FFA500;
-        padding: 10px; font-size: 0.85em; margin-top: 10px; font-family: monospace; color: #d0d0d0;
-    }
-    .quick-btn { margin: 5px; }
+
+
+
+:root{
+  --bg0:#070A10;
+  --bg1:#0B1020;
+  --glass: rgba(255,255,255,0.06);
+  --glass2: rgba(255,255,255,0.10);
+  --stroke: rgba(255,255,255,0.14);
+  --stroke2: rgba(0,201,255,0.35);
+  --text:#DCE6F2;
+  --muted:#9DB0C6;
+  --cyan:#00C9FF;
+  --mint:#92FE9D;
+  --violet:#8A5CFF;
+  --pink:#FF4FD8;
+  --shadow: 0 18px 60px rgba(0,0,0,0.55);
+  --shadow2: 0 10px 30px rgba(0,0,0,0.35);
+  --radius: 18px;
+  --radius2: 26px;
+}
+
+html, body, [data-testid="stAppViewContainer"]{
+  background: radial-gradient(1200px 800px at 10% 10%, rgba(0,201,255,0.12), transparent 55%),
+              radial-gradient(1000px 700px at 90% 20%, rgba(146,254,157,0.10), transparent 60%),
+              radial-gradient(900px 700px at 60% 90%, rgba(138,92,255,0.12), transparent 55%),
+              linear-gradient(180deg, var(--bg0), var(--bg1));
+  color: var(--text) !important;
+}
+
+[data-testid="stAppViewContainer"]::before{
+  content:"";
+  position: fixed;
+  inset: -40%;
+  background:
+    radial-gradient(closest-side at 20% 20%, rgba(0,201,255,0.14), transparent 60%),
+    radial-gradient(closest-side at 80% 30%, rgba(255,79,216,0.10), transparent 60%),
+    radial-gradient(closest-side at 60% 80%, rgba(146,254,157,0.12), transparent 60%),
+    radial-gradient(closest-side at 30% 70%, rgba(138,92,255,0.12), transparent 60%);
+  filter: blur(45px);
+  opacity: 0.9;
+  animation: aurora 12s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index: 0;
+}
+
+@keyframes aurora{
+  0% { transform: translate3d(-2%, -1%, 0) scale(1.00) rotate(0deg); }
+  100%{ transform: translate3d(2%, 1%, 0) scale(1.05) rotate(10deg); }
+}
+
+
+[data-testid="stAppViewContainer"] > .main{
+  position: relative;
+  z-index: 1;
+}
+.main { background: transparent !important; }
+
+
+h1, h2, h3, h4, h5, h6 { letter-spacing: 0.3px; }
+h1{
+  background: linear-gradient(90deg, var(--cyan), var(--mint), var(--violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 800;
+  text-shadow: 0 0 22px rgba(0,201,255,0.18);
+}
+
+
+section[data-testid="stSidebar"]{
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03)) !important;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(18px);
+}
+section[data-testid="stSidebar"] *{ color: var(--text) !important; }
+
+
+[data-testid="stVerticalBlock"] > [data-testid="stVerticalBlockBorderWrapper"]{
+  border-radius: var(--radius2);
+  border: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+  box-shadow: var(--shadow2);
+  backdrop-filter: blur(18px);
+}
+
+
+.block-container{
+  padding-top: 1.6rem !important;
+  padding-bottom: 2.2rem !important;
+}
+
+
+.stButton > button{
+  border: 1px solid rgba(0,201,255,0.55) !important;
+  border-radius: 14px !important;
+  background: linear-gradient(180deg, rgba(0,201,255,0.08), rgba(255,255,255,0.02)) !important;
+  color: var(--text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 800 !important;
+  letter-spacing: 0.4px;
+  padding: 0.70rem 0.95rem !important;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, filter .18s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stButton > button::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background: radial-gradient(closest-side at 30% 20%, rgba(0,201,255,0.35), transparent 60%),
+              radial-gradient(closest-side at 80% 60%, rgba(146,254,157,0.22), transparent 62%),
+              radial-gradient(closest-side at 50% 120%, rgba(138,92,255,0.22), transparent 60%);
+  opacity: 0.0;
+  transition: opacity .18s ease;
+}
+
+.stButton > button:hover{
+  transform: translateY(-2px) scale(1.01);
+  border-color: rgba(146,254,157,0.70) !important;
+  box-shadow: 0 16px 40px rgba(0,201,255,0.18), 0 10px 24px rgba(146,254,157,0.10);
+  filter: brightness(1.08);
+}
+.stButton > button:hover::before{ opacity: 0.9; }
+
+.stButton > button:active{
+  transform: translateY(0px) scale(0.995);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+}
+
+
+button[kind="primary"]{
+  border: 1px solid rgba(146,254,157,0.75) !important;
+  background: linear-gradient(90deg, rgba(0,201,255,0.18), rgba(146,254,157,0.18)) !important;
+  box-shadow: 0 18px 50px rgba(0,201,255,0.15);
+}
+
+
+textarea, input, .stTextArea textarea, .stTextInput input{
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  border-radius: 16px !important;
+  color: var(--text) !important;
+  backdrop-filter: blur(12px);
+}
+textarea:focus, input:focus{
+  border-color: rgba(0,201,255,0.45) !important;
+  box-shadow: 0 0 0 4px rgba(0,201,255,0.08) !important;
+}
+
+
+button[data-baseweb="tab"]{
+  border-radius: 999px !important;
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  color: var(--muted) !important;
+  transition: all .18s ease;
+}
+button[data-baseweb="tab"][aria-selected="true"]{
+  color: var(--text) !important;
+  border-color: rgba(0,201,255,0.45) !important;
+  background: linear-gradient(90deg, rgba(0,201,255,0.14), rgba(146,254,157,0.10)) !important;
+  box-shadow: 0 10px 26px rgba(0,201,255,0.14);
+}
+
+
+.agent-card{
+  padding: 20px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: var(--shadow2);
+  backdrop-filter: blur(18px);
+  position: relative;
+  overflow: hidden;
+  transform: translateY(0);
+  transition: transform .20s ease, box-shadow .20s ease, border-color .20s ease;
+}
+.agent-card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background: radial-gradient(closest-side at 20% 10%, rgba(0,201,255,0.20), transparent 55%),
+              radial-gradient(closest-side at 80% 30%, rgba(146,254,157,0.14), transparent 60%),
+              radial-gradient(closest-side at 60% 90%, rgba(138,92,255,0.14), transparent 55%);
+  filter: blur(18px);
+  opacity: 0.7;
+  pointer-events:none;
+}
+.agent-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 22px 60px rgba(0,0,0,0.55), 0 14px 40px rgba(0,201,255,0.10);
+  border-color: rgba(0,201,255,0.26);
+}
+
+
+.trace-box{
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.10);
+  border-left: 3px solid rgba(255,165,0,0.90);
+  padding: 12px;
+  font-size: 0.86em;
+  margin-top: 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  color: var(--text);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.trace-box::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.035),
+    rgba(255,255,255,0.035) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  opacity: 0.12;
+  pointer-events:none;
+  animation: scan 4.5s linear infinite;
+}
+@keyframes scan{
+  0%{ transform: translateY(-6px); }
+  100%{ transform: translateY(6px); }
+}
+
+
+[data-testid="stMetric"]{
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 18px;
+  padding: 12px 14px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  backdrop-filter: blur(14px);
+}
+[data-testid="stMetricValue"]{
+  color: var(--text);
+  text-shadow: 0 0 18px rgba(0,201,255,0.10);
+}
+
+
+[data-testid="stFileUploaderDropzone"]{
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px dashed rgba(0,201,255,0.35) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.20);
+}
+
+
+[data-testid="stStatusWidget"]{
+  border-radius: 18px !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  background: rgba(255,255,255,0.05) !important;
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow2);
+}
+
+
+[data-testid="stAlert"]{
+  border-radius: 18px !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  background: rgba(255,255,255,0.05) !important;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.20);
+}
+
+
+hr{
+  border-color: rgba(255,255,255,0.12) !important;
+}
+
+
+p, li, label, span, div { color: var(--text); }
+small, .stCaption, [data-testid="stCaptionContainer"]{ color: var(--muted) !important; }
+
+
+[data-testid="stGraphvizChart"]{
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.04);
+  box-shadow: var(--shadow2);
+}
+
+
+@keyframes fadeInUp{
+  from{ opacity: 0; transform: translateY(8px); }
+  to{ opacity: 1; transform: translateY(0px); }
+}
+.block-container{
+  animation: fadeInUp .42s ease both;
+}
+
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -83,7 +355,7 @@ class SimulationOutput(BaseModel):
 
 def recruit_agents(context, image_part=None):
     model = genai.GenerativeModel(
-        model_name='gemini-3-pro-preview', 
+        model_name='gemini-3-pro-preview',
         generation_config={"response_mime_type": "application/json", "response_schema": Council}
     )
     prompt = f"MISSION: Recruit 3 distinct strategic experts to analyze: {context}. RULES: No honorifics. Diverse perspectives."
@@ -91,7 +363,7 @@ def recruit_agents(context, image_part=None):
     if image_part:
         inputs.append(image_part)
         inputs.append("Analyze visual data.")
-    
+
     response = model.generate_content(inputs)
     return json.loads(response.text)
 
@@ -100,9 +372,9 @@ def run_simulation(context, agents, image_part=None, inject_chaos=False):
         model_name='gemini-3-pro-preview',
         generation_config={"response_mime_type": "application/json", "response_schema": SimulationOutput}
     )
-    
+
     agents_desc = "\n".join([f"- {a['name']} ({a['role']}): {a['stance']}" for a in agents['agents']])
-    
+
     chaos_prompt = ""
     if inject_chaos:
         chaos_prompt = "⚠️ INJECT A BLACK SWAN EVENT: Introduce a low-probability, high-impact disruption into the scenarios."
@@ -114,7 +386,7 @@ def run_simulation(context, agents, image_part=None, inject_chaos=False):
     {chaos_prompt}
     CURRENT STATE: {context}
     """
-    
+
     inputs = [prompt]
     if image_part: inputs.extend([image_part, "Incorporate visual insights."])
 
@@ -129,12 +401,12 @@ def generate_markdown_report(history):
     report = "# TIMEFOLD STRATEGIC REPORT\n"
     report += f"**Date:** {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
     for i, step in enumerate(history):
-        report += f"## Step {i+1}: {step['title']}\n"
-        report += f"_{step['description']}_\n\n"
-        if 'reasoning_trace' in step:
-            report += f"> **Reasoning:** {step['reasoning_trace']}\n\n"
+        report += f"## Step {i+1}: {step.get('title', 'UNTITLED')}\n"
+        report += f"_{step.get('description', '')}_\n\n"
+        if 'reasoning_trace' in step and step.get('reasoning_trace') is not None:
+            report += f"> **Reasoning:** {step.get('reasoning_trace','')}\n\n"
         if 'risk_level' in step:
-            report += f"**Metrics:** Risk: {step['risk_level']} | Prob: {step['probability']}%\n"
+            report += f"**Metrics:** Risk: {step.get('risk_level','Unknown')} | Prob: {step.get('probability','N/A')}%\n"
         report += "---\n"
     return report
 
@@ -146,23 +418,32 @@ def draw_advanced_tree(history, options):
 
     for i, step in enumerate(history):
         node_id = f"H_{i}"
-        label = f"{step['title']}"
+        label = f"{step.get('title', 'UNTITLED')}"
         dot.node(node_id, label=label, shape='box', style='filled', fillcolor='#21262D', penwidth='2.0', color='white')
         if i > 0: dot.edge(f"H_{i-1}", node_id)
 
     last_id = f"H_{len(history)-1}"
     if options:
         for opt in options.get("scenarios", []):
-            opt_id = f"OPT_{opt['id']}"
-            risk = opt.get('risk_level', '').lower()
+            
+            opt_id_val = opt.get("id", str(random.randint(1000, 9999)))
+            opt_id = f"OPT_{opt_id_val}"
+
+            risk_level = opt.get("risk_level", "Unknown")
+            risk = (risk_level or "").lower()
+
             color = '#8B0000' if 'critical' in risk else '#B22222' if 'high' in risk else '#006400' if 'low' in risk else '#003366'
-            
-            label = f"""<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><B>{opt['title']}</B></TD></TR>
-            <TR><TD><FONT POINT-SIZE="10">{opt['time_horizon']}</FONT></TD></TR>
-            <TR><TD><FONT POINT-SIZE="10">Prob: {opt['probability']}%</FONT></TD></TR></TABLE>>"""
-            
+
+            title = opt.get("title", "Untitled")
+            time_horizon = opt.get("time_horizon", "N/A")
+            probability = opt.get("probability", "N/A")
+
+            label = f"""<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><B>{title}</B></TD></TR>
+            <TR><TD><FONT POINT-SIZE="10">{time_horizon}</FONT></TD></TR>
+            <TR><TD><FONT POINT-SIZE="10">Prob: {probability}%</FONT></TD></TR></TABLE>>"""
+
             dot.node(opt_id, label=label, shape='note', style='filled', fillcolor=color)
-            dot.edge(last_id, opt_id, label=f"Risk: {opt['risk_level']}")
+            dot.edge(last_id, opt_id, label=f"Risk: {risk_level}")
     return dot
 
 with st.sidebar:
@@ -170,7 +451,7 @@ with st.sidebar:
     show_reasoning = st.toggle("🧠 Show Reasoning Trace", value=True)
     st.markdown("### Vision Input")
     uploaded_file = st.file_uploader("Upload Chart/Map/Photo", type=["jpg", "png", "jpeg"])
-    
+
     image_part = None
     if uploaded_file:
         image = Image.open(uploaded_file)
@@ -192,8 +473,7 @@ st.caption("Multimodal Strategic Foresight Engine | Powered by Gemini 3 Preview"
 
 if st.session_state.stage == 'INPUT':
     st.markdown("### Initialize Simulation")
-    
-    
+
     st.markdown("Or choose a preset:")
     c1, c2, c3 = st.columns(3)
     if c1.button("📉 Crypto Crash"):
@@ -210,7 +490,7 @@ if st.session_state.stage == 'INPUT':
         st.rerun()
 
     user_input = st.text_area("Define your own scenario:", placeholder="E.g., A sudden collapse in the global lithium supply chain...", height=100)
-    
+
     if st.button("INITIALIZE SYSTEM", use_container_width=True):
         if user_input or image_part:
             input_text = user_input if user_input else "Analyze the uploaded visual data."
@@ -222,93 +502,109 @@ if st.session_state.stage == 'INPUT':
 
 
 elif st.session_state.stage == 'RECRUITING':
-    last_context = st.session_state.history[-1]['description']
-    
+    last_context = st.session_state.history[-1].get('description', '')
+
     with st.status("📡 Establishing Neural Link...", expanded=True) as status:
         st.write("Processing context and visual data...")
         time.sleep(0.5)
         st.write("Recruiting domain experts...")
         st.session_state.agents = recruit_agents(last_context, image_part)
         status.update(label="✅ Council Assembled", state="complete", expanded=False)
-    
+
     st.subheader("🧠 The Strategic Council")
     cols = st.columns(3)
     for i, agent in enumerate(st.session_state.agents['agents']):
         with cols[i]:
             st.markdown(f"""
             <div class="agent-card">
-                <div style="font-size: 2.5em; text-align:center;">{agent['avatar']}</div>
-                <div style="font-weight: bold; color: #00C9FF; text-align:center; font-size: 1.1em;">{agent['name']}</div>
-                <div style="font-size: 0.9em; opacity: 0.8; text-align:center;">{agent['role']}</div>
+                <div style="font-size: 2.5em; text-align:center;">{agent.get('avatar','🧠')}</div>
+                <div style="font-weight: bold; color: #00C9FF; text-align:center; font-size: 1.1em;">{agent.get('name','Agent')}</div>
+                <div style="font-size: 0.9em; opacity: 0.8; text-align:center;">{agent.get('role','')}</div>
                 <hr style="border-color: #333;">
-                <div style="font-size: 0.85em; font-style: italic;">"{agent['stance']}"</div>
+                <div style="font-size: 0.85em; font-style: italic;">"{agent.get('stance','')}"</div>
             </div>
             """, unsafe_allow_html=True)
-            
+
     if st.button("START SIMULATION ➡️", use_container_width=True):
         st.session_state.stage = 'SIMULATING'
         st.rerun()
 
 elif st.session_state.stage == 'SIMULATING':
-    last_context = st.session_state.history[-1]['description']
-    
-    
+    last_context = st.session_state.history[-1].get('description', '')
+
     inject_chaos = False
     if st.button("Inject Chaos (Black Swan Event)", type="secondary"):
         inject_chaos = True
-        st.session_state.simulation = None 
-    
+        st.session_state.simulation = None
+
     if not st.session_state.simulation:
         with st.spinner("Simulating Futures... (Agents debating)"):
             st.session_state.simulation = run_simulation(last_context, st.session_state.agents, image_part, inject_chaos)
+
     
-    
+    if not st.session_state.simulation:
+        st.error("Simulation failed (no valid output). Please try again or reset the system.")
+        cA, cB = st.columns(2)
+        with cA:
+            if st.button("🔁 Retry Simulation", use_container_width=True):
+                st.session_state.simulation = None
+                st.rerun()
+        with cB:
+            if st.button("🔄 Reset System (Hard)", use_container_width=True):
+                st.session_state.clear()
+                st.rerun()
+        st.stop()
+
     tab1, tab2 = st.tabs(["🕸️ Interactive Graph", "📋 Executive Summary"])
-    
+
     with tab1:
         st.graphviz_chart(draw_advanced_tree(st.session_state.history, st.session_state.simulation), use_container_width=True)
-    
+
     with tab2:
         st.success("Council Synthesis")
-        st.write(st.session_state.simulation['synthesis'])
+        st.write(st.session_state.simulation.get('synthesis', ''))
         if st.session_state.simulation.get('black_swan_alert') or inject_chaos:
-             st.error(f"⚠️ BLACK SWAN / CHAOS DETECTED: {st.session_state.simulation.get('black_swan_alert', 'Chaos Injection Active')}")
+            st.error(f"⚠️ BLACK SWAN / CHAOS DETECTED: {st.session_state.simulation.get('black_swan_alert', 'Chaos Injection Active')}")
 
     st.divider()
-    
+
     st.subheader("📍 Select Future Path")
     scenarios = st.session_state.simulation.get("scenarios", [])
-    
-    cols = st.columns(len(scenarios))
-    for i, sc in enumerate(scenarios):
-        with cols[i]:
-            with st.container(border=True):
-                risk_color = ":red" if "Critical" in sc['risk_level'] else ":orange" if "High" in sc['risk_level'] else ":green"
-                st.markdown(f"#### {risk_color}[{sc['title']}]")
-                st.caption(f"Time Horizon: {sc['time_horizon']}")
-                
-                c1, c2 = st.columns(2)
-                c1.metric("Prob", f"{sc['probability']}%")
-                c2.metric("Impact", f"{sc['impact_score']}/10")
-                
-                st.write(sc['description'])
-                
-                if show_reasoning:
-                    with st.expander("🔍 Reasoning Trace"):
-                        st.markdown(f"""
-                        <div class="trace-box">
-                        <b>Logic:</b> {sc['reasoning_trace']}<br>
-                        <b>Data Conf:</b> {sc['data_confidence']}%<br>
-                        <b>Assumption Stability:</b> {sc['assumption_stability']}%
-                        </div>
-                        """, unsafe_allow_html=True)
-                
-                if st.button("Explore This Path", key=f"btn_{i}", use_container_width=True):
-                    st.session_state.history.append(sc)
-                    st.session_state.simulation = None
-                    st.session_state.agents = None
-                    st.session_state.stage = 'RECRUITING'
-                    st.rerun()
+
+    if scenarios:
+        cols = st.columns(len(scenarios))
+        for i, sc in enumerate(scenarios):
+            with cols[i]:
+                with st.container(border=True):
+                    risk_level = sc.get('risk_level', 'Unknown')
+                    risk_color = ":red" if "Critical" in risk_level else ":orange" if "High" in risk_level else ":green"
+                    st.markdown(f"#### {risk_color}[{sc.get('title','Untitled')}]")
+                    st.caption(f"Time Horizon: {sc.get('time_horizon','N/A')}")
+
+                    c1, c2 = st.columns(2)
+                    c1.metric("Prob", f"{sc.get('probability','N/A')}%")
+                    c2.metric("Impact", f"{sc.get('impact_score','N/A')}/10")
+
+                    st.write(sc.get('description', ''))
+
+                    if show_reasoning:
+                        with st.expander("🔍 Reasoning Trace"):
+                            st.markdown(f"""
+                            <div class="trace-box">
+                            <b>Logic:</b> {sc.get('reasoning_trace','')}<br>
+                            <b>Data Conf:</b> {sc.get('data_confidence','N/A')}%<br>
+                            <b>Assumption Stability:</b> {sc.get('assumption_stability','N/A')}%
+                            </div>
+                            """, unsafe_allow_html=True)
+
+                    if st.button("Explore This Path", key=f"btn_{i}", use_container_width=True):
+                        st.session_state.history.append(sc)
+                        st.session_state.simulation = None
+                        st.session_state.agents = None
+                        st.session_state.stage = 'RECRUITING'
+                        st.rerun()
+    else:
+        st.warning("No scenarios returned by the model. Try again.")
 
     st.divider()
     report_md = generate_markdown_report(st.session_state.history)
