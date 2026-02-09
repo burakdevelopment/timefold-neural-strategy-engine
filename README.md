@@ -9,7 +9,9 @@
 
 Unlike traditional chatbots that generate linear text, TIMEFOLD functions as a **recursive simulation environment**. It creates a **Council of Agents** — dynamic AI personas representing domain experts — to debate, analyze, and forecast divergent future scenarios.
 
-TIMEFOLD bridges the gap between **Generative AI** and **Decision Theory**, allowing leaders, analysts, and curious minds to explore the **Tree of Possibilities** with mathematical confidence scores, transparent reasoning traces, and visual graph structures.
+TIMEFOLD bridges the gap between **Generative AI** and **Decision Theory**, allowing leaders, analysts, and curious minds to explore the **Tree of Possibilities** with mathematical confidence scores, transparent reasoning traces, and visual graph structures. 
+
+**URL: https://timefold-neural-strategy-engine.streamlit.app/**
 
 ---
 
@@ -117,12 +119,7 @@ TIMEFOLD is built on a **modular reasoning pipeline**:
 
 ## 📸 Screenshots
 
-<img width="1919" height="938" alt="image" src="https://github.com/user-attachments/assets/ddd04b1e-e450-456a-b736-20bc84b21cd3" />
-<img width="1919" height="938" alt="image" src="https://github.com/user-attachments/assets/d76ff811-9ae1-405f-98e0-b26d543a6f24" />
-<img width="1919" height="938" alt="image" src="https://github.com/user-attachments/assets/5f9664be-e914-418e-a2f8-7b409e771189" />
-<img width="1919" height="938" alt="image" src="https://github.com/user-attachments/assets/efac236d-acba-4999-a86a-3e6a2395410b" />
-<img width="1919" height="685" alt="image" src="https://github.com/user-attachments/assets/9b14fb0b-7594-43ae-99a4-1ad7675b932f" />
-
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ffc00504-20f6-439a-a0a6-ba6c59f2a2f9" />
 
 ## ⚡ Quick Start Guide
 
